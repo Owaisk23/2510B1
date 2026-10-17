@@ -42,6 +42,27 @@ VALUES ('Sharjeel', 'Frontend Developer', 150000, 'Hyd'),
 --READ
 SELECT * FROM Employee;
 
+-- DISTINCT(different)
+SELECT DISTINCT city FROM Employee;
+
+SELECT city FROM Employee;
+
+SELECT * FROM Employee where city='Khi';
+
+UPDATE Employee set salary = 320000 where city='Khi';
+
+UPDATE Employee set empName = 'Bilal', city = 'Hyd' where id = 1;
+
+DELETE FROM Employee where id = 1;
+
+
+
+
+
+
+
+
+
 
 
 -- DCL(Data Control Language)
