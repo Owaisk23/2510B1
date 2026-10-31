@@ -170,20 +170,76 @@ CREATE TABLE Employee(
 	FOREIGN KEY (deptId) references Department(deptId)
 )
 
+INSERT INTO Employee(empName, designation,salary,city, deptId)
+VALUES ('Sharjeel', 'Frontend Developer', 150000, 'Hyd', 1),
+('Zaryab', 'UIUX', 120000, 'Lhr', 1),
+('Rukhsar', 'Marketing Agent', 170000, 'Khi', 5),
+('Shaista', 'SQA', 100000, 'Khi', 4),
+('Warda', 'SQA', 100000, 'Khi', 4),
+('Abdul Rehman', 'Backend Developer', 250000, 'Isb', 6),
+('Ashar', 'Lead Frontend Developer', 2250000, 'Khi', 3),
+('Hassan', 'Lead Backend Developer', 350000, 'Isb', 3),
+('Ubaid', 'Mob App Developer', 370000, 'Lhr', 2),
+('Mohsin', 'Backend Developer', 250000, 'Khi', 7),
+('Hashim', 'Lead Mob App Developer', 450000, 'Isb', 2),
+('Tayyab', 'Desktop App Developer', 350000, 'Lhr', 6),
+('Naveed', 'DBA', 150000, 'Khi', 7);
+
+
+-- JOINS
+
+--INNER JOIN
+
+SELECT empName, designation, deptName, city, salary FROM Employee as emp
+INNER JOIN Department as d on emp.deptId = d.deptId;
+
+
+--LEFT JOIN
+
+SELECT empName, designation, deptName, city, salary FROM Employee as emp
+LEFT JOIN Department as d on emp.deptId = d.deptId;
+
+INSERT INTO Department
+VALUES ('Books'),('Placement');
+
+SELECT * FROM Department;
+
+DELETE FROM Department where deptId = 8;
 
 
 
+--RIGHT JOIN
 
+SELECT empName, designation, deptName, city, salary FROM Employee as emp
+RIGHT JOIN Department as d on emp.deptId = d.deptId;
 
+--FULL OUTER JOIN
 
+SELECT empName, designation, deptName, city, salary FROM Employee as emp
+FULL OUTER JOIN Department as d on emp.deptId = d.deptId;
 
+-- VIEWS
 
+SELECT empName, designation FROM Employee;
 
+CREATE VIEW [empDetails]
+AS
+SELECT empName, designation FROM Employee;
+
+SELECT * FROM empDetails;
+
+CREATE VIEW [deptName]
+AS
+SELECT deptName FROM Department;
+
+SELECT * FROM deptName;
+
+SELECT * FROM sys.views;
 
 
 -- DCL(Data Control Language)
 
-
+SELECT * FROM sys.sql_logins;
 
 
 
