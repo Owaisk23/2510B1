@@ -282,6 +282,58 @@ AddEmp @Name='Junaid', @designation='HR Head', @sal=77000, @city='Khi', @dId= 1;
 
 AddEmp @Name='Javeria', @designation='HR', @sal=55000, @city='Khi', @dId= 1;
 
+-- Triggers
+
+CREATE TRIGGER AddEmp_trigger
+on Employee
+FOR INSERT
+AS
+BEGIN
+print('a new employee added in our company.')
+END;
 
 
+INSERT INTO Employee(empName, designation,salary,city, deptId)
+VALUES ('Zafar Abbas', 'Marketing Executive', 350000, 'Khi', 5);
 
+--ALTER
+ALTER TRIGGER AddEmp_trigger
+ON Employee
+FOR INSERT
+AS
+BEGIN
+SELECT * FROM inserted
+END;
+
+INSERT INTO Employee(empName, designation,salary,city, deptId)
+VALUES ('ALiyan', 'Marketing Intern', 30000, 'Khi', 5);
+
+-- logs
+
+CREATE TABLE EmpLogs(
+	logid INT PRIMARY KEY IDENTITY(1,1),
+	ActionPerformed nvarchar(255)
+);
+
+SELECT * FROM EmpLogs
+
+SELECT * INTO Test FROM Employee;
+
+SELECT * FROM Test;
+
+DROP TRIGGER AddEmp_trigger;
+
+
+CREATE TRIGGER AddEmp_trigger
+on Employee
+AFTER INSERT
+AS
+BEGIN
+DECLARE @Id int, @name varchar(60)
+SELECT @Id=id, @name=empName FROM inserted
+INSERT INTO EmpLogs VALUES(@name + ' having Id = ' + CAST(@Id as varchar(6)) + ' is added at ' +
+CAST(GETDATE() as VARCHAR(30)))
+END;
+
+INSERT INTO Employee(empName, designation,salary,city, deptId)
+VALUES ('Taha', 'Marketing Intern', 35000, 'Khi', 5);
