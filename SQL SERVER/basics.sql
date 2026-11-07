@@ -248,3 +248,40 @@ DROP LOGIN HR_EMP;
 
 GRANT SELECT on dbo.Department TO ACC_EMP;
 
+GRANT INSERT, DELETE, UPDATE on dbo.Department TO ACC_EMP;
+
+REVOKE INSERT on dbo.Department TO ACC_EMP;
+
+-- STORED PROCEDURES
+CREATE PROCEDURE SeeEmp
+AS
+BEGIN
+SELECT * FROM Employee
+END;
+
+
+SeeEmp;
+
+CREATE PROCEDURE SeeEmp2
+AS
+BEGIN
+SELECT * FROM Employee where id = 2
+END;
+
+SeeEmp2
+
+
+CREATE PROCEDURE AddEmp @Name varchar(255), @designation varchar(80), @sal int, @city varchar(60), @dId int
+AS 
+BEGIN
+INSERT INTO Employee VALUES (@Name, @designation, @sal, @city, @dId)
+SELECT * FROM Employee
+END;
+
+AddEmp @Name='Junaid', @designation='HR Head', @sal=77000, @city='Khi', @dId= 1;
+
+AddEmp @Name='Javeria', @designation='HR', @sal=55000, @city='Khi', @dId= 1;
+
+
+
+
