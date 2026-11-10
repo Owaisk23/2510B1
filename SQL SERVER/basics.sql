@@ -337,3 +337,97 @@ END;
 
 INSERT INTO Employee(empName, designation,salary,city, deptId)
 VALUES ('Taha', 'Marketing Intern', 35000, 'Khi', 5);
+
+-- instead of
+ SELECT * from Employee
+ SELECT * from Employee where emp_status = 1;
+ Alter TABLE Employee ADD emp_status int default(1) not null;
+
+ CREATE Trigger Soft_Delete
+ On Employee
+ INSTEAD OF DELETE
+ AS
+ BEGIN
+ DECLARE @ID int
+ SELECT @ID=id from Deleted
+ Update Employee set emp_status=0 where id=@ID
+ END;
+
+ DELETE from Employee where id=3;
+
+-- Update Trigger
+ CREATE Trigger Update_Employees
+ On Employee
+ for Update
+ AS
+ BEGIN
+DECLARE @Id int
+DECLARE @Newname varchar(60), @Oldname varchar(60)
+DECLARE @Newsalary int,  @Oldsalary int
+DECLARE @NewDesignation varchar(60),@OldDesignation varchar(60)
+DECLARE @Newdeptid int,  @Olddeptid int
+DECLARE @Newcity varchar(60), @Oldcity varchar(60)
+DECLARE @AuditString varchar(255)
+
+SELECT * into #Temptable from inserted
+WHILE(exists (SELECT id from #Temptable))
+begin
+SELECT @Id=id, @Newname=empName, @Newsalary=salary, @NewDesignation=designation,@Newcity=city,@Newdeptid=deptId FROM #Temptable
+SELECT  @Oldname=empName, @Oldsalary=salary, @OldDesignation=designation,@Oldcity=city,@Olddeptid=deptId FROM deleted where id=@Id
+SET @AuditString =''
+SET @AuditString ='An employee having id = '+ CAST(@Id as varchar(6))+' on '+  CAST(GETDATE() as varchar(30))+' is changed '
+if(@Oldname <> @Newname)
+SET @AuditString = @AuditString + ' its name from '+@Oldname +' to '+ @Newname
+
+if(@Oldsalary <> @Newsalary)
+SET @AuditString = @AuditString + ' its salary from '+CAST(@Oldsalary as varchar(10)) +' to '+CAST(@Newsalary as varchar(10))
+
+if(@OldDesignation <> @NewDesignation)
+SET @AuditString = @AuditString + ' its designation from '+@OldDesignation +' to '+ @NewDesignation
+
+if(@Oldcity <> @Newcity)
+SET @AuditString = @AuditString + ' its city from '+@Oldcity +' to '+ @Newcity
+
+if(@Olddeptid <> @Newdeptid)
+SET @AuditString = @AuditString + ' its deptid from '+CAST(@Olddeptid as varchar(10)) +' to '+CAST(@Newdeptid as varchar(10))
+ Insert into Emplogs values(@AuditString)
+ DELETE FROM #Temptable where id=@Id
+end
+ end;
+
+ select * from Employee;
+ update Employee set city='karachi' where id > 4;
+ select * from Emplogs;
+
+ 
+ -- Transactions 
+ -- ddl- data definition language (create , alter, drop)
+ -- dml-data manipulation language (insert,update,delete, select)
+ -- dcl-data control languages (grant/revoke)
+ -- tcl- transaction control language. (ROLLBACK/ COMMIT)
+
+ -- ACID properties.
+ 
+-- A => Atomicity -- all the steps are fully completed or not a single step will execute.
+-- C => Consistency -- all the nodes in a network should be aware of the transaction.
+-- I => Isolation -- one transaction's info should not be known to another transaction.
+-- D => Durability -- changes after transaction should be saved.
+
+
+-- Integrity
+Begin Transaction
+Update Employee set empName='Khurram' where id= 1;
+Commit Transaction;-- save changes
+
+Rollback Transaction;-- wapis
+
+BEGIN TRANSACTION
+BEGIN try 
+Update Employee set empName='chakwal' where id= 1/0;
+print('Commited Successfully.')
+COMMIT TRANSACTION
+End try
+BEGIN catch
+print('Rolled back Successfully.')
+Rollback Transaction
+END catch;
