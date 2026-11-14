@@ -64,30 +64,65 @@ int a = 45; int b = 75;
 
 
 //LOGICAL OPERATORS (AND &&, OR ||, NOT !)
-//AND
-// T     T  = T
-// T     F  = F
-// F     T  = F
-// F     F  = F
-Console.Write(a <= b && a != b);// T
-Console.Write(a >= b && a != b);// F
+////AND
+//// T     T  = T
+//// T     F  = F
+//// F     T  = F
+//// F     F  = F
+//Console.Write(a <= b && a != b);// T
+//Console.Write(a >= b && a != b);// F
 
 
-//OR
-// T     T  = T
-// T     F  = T
-// F     T  = T
-// F     F  = F
-Console.WriteLine(a <= b || a != b); //T
-Console.WriteLine(a >= b || a != b); //T
-Console.WriteLine(a >= b || a == b); //F
+////OR
+//// T     T  = T
+//// T     F  = T
+//// F     T  = T
+//// F     F  = F
+//Console.WriteLine(a <= b || a != b); //T
+//Console.WriteLine(a >= b || a != b); //T
+//Console.WriteLine(a >= b || a == b); //F
 
+////NOT !
 
+Console.WriteLine(!(a == b));
+Console.WriteLine(a != b);
 
+// Salary System
 
+Console.WriteLine("Enter salary...");
 
+int salary = Int32.Parse(Console.ReadLine());
 
+//Console.WriteLine("Your salary: " + salary);
 
+if(salary > 100000 && !(salary >= 140000))
+{
+    Console.WriteLine("Good Salary Package");
+}
+else if(salary < 100000)
+{
+    Console.WriteLine("Do you get fuel allowance");
+    string answer = Console.ReadLine();
+
+    answer = answer.ToLower();
+
+    if(answer == "yes" || answer == "y")
+    {
+        Console.WriteLine("Achi bat he!");
+    }
+    else if(answer == "no" || answer == "n")
+    {
+        Console.WriteLine("Try to switch your Job asap!");
+    }
+    else
+    {
+        Console.WriteLine("Please enter yes or no.");
+    }
+}
+else
+{
+    Console.WriteLine("MASHALLAH!");
+}
 
 
 
